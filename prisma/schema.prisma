@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+  
+}
+/// prisma format -> To format the schema
+/// prisma migrate dev -> To mugrate the schema to the database
+/// prisma generate -> To mugrate the schema to the database
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                           				String                      @id @default(uuid())
+  firstname                    				String
+  lastname                     				String
+  email                        				String                      @unique
+  phone                        				String
+  password                     				String
+  role_id                      				RoleType                    @default(CONSUMER)
+  role_symbol                      			String?                   
+  permission                   				String
+  jwt_token                    				String?
+  apns_token                   				String?
+  fcm_token                    				String?
+  epn_token                    				String?
+  otp                          				String?
+  avatar                       				String?
+  designation_symbol                       	String?
+  day                          				Int?
+  week                         				Int?
+  month                        				Int?
+  year                         				Int?
+  is_active                    				ActiveStatus                @default(INACTIVE)
+  created_at                   				DateTime                    @default(now())
+  updated_at                   				DateTime                    @updatedAt
+  
+}
+
+
+
+enum ActiveStatus {
+  ACTIVE
+  INACTIVE
+  DELETED
+}
+
+enum RoleType {
+  CONSUMER
+  BUSINESS
+  ADMIN
+}
+
+enum ApprovalStatus {
+  PENDING
+  PROCESSING
+  PROCESSED
+  APPROVED
+  DECLINED
+}
+
+enum ReadStatus {
+  UNREAD
+  READ
+  DELIVERED
+  UNDELIVERED
+}
+
+enum DeliveryStatus {
+  PENDING
+  PROCESSING
+  IN_TRANSIT
+  DELIVERED
+  CANCELED
+}
